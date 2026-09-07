@@ -1,0 +1,12 @@
+Erdős problem #1207 (isosceles-free subsets of planar point sets): proof
+Copyright 2026 Tom Adamczewski / Epoch AI
+
+This repository includes two definitions (Set.Triplewise and IsIsosceles) copied from Formal Conjectures
+(https://github.com/google-deepmind/formal-conjectures, files FormalConjecturesForMathlib/Data/Set/Triplewise.lean and
+FormalConjecturesForMathlib/Geometry/2d.lean at commit 9cbe1d3c12998c786b7c2cd99ce28a21b6631f66),
+Copyright 2025 The Formal Conjectures Authors, licensed under the Apache License, Version 2.0.
+
+The formal statement was given to the AI system by the FrontierMath Erdős benchmark of Tom Adamczewski and
+Thomas F. Bloom (LeanOpenProblems,
+https://github.com/epoch-research/LeanOpenProblems, commit 8fa3b4c6ee5e6f0ee25d027b6f110f20787db977), Epoch AI, MIT License.
+The Lean proof was produced by a pre-release version of GPT-6 Astra (OpenAI) running in that benchmark's harness.

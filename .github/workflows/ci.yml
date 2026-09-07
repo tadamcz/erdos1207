@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  license:
+    name: Check metadata and Apache licence default
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+        with:
+          ruby-version: "3.3.12"
+          bundler-cache: true
+      - name: Test the metadata validator
+        run: ruby test/validate_formalization_test.rb
+      - name: Reject retained template values
+        run: ruby scripts/validate-formalization.rb
+      - name: Detect the repository licence
+        run: |
+          bundle exec licensee detect LICENSE --json --no-packages --no-readme > "$RUNNER_TEMP/license.json"
+          ruby -rjson -e '
+            report = JSON.parse(File.read(ARGV.fetch(0)))
+            identifiers = report.fetch("licenses").map { |item| item.fetch("spdx_id") }
+            abort "LICENSE is not detected exactly as Apache-2.0" unless identifiers == ["Apache-2.0"]
+          ' "$RUNNER_TEMP/license.json"
+
+  submission-link:
+    name: Check where the README sends a submitter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check the submission form the README names
+        run: |
+          python3 - <<'PY'
+          import pathlib
+          import re
+
+          form = "https://submit.palomar-registry.org/"
+          retired = re.compile(r"PalomarSubmission/issues/new")
+          failed = False
+          if form not in pathlib.Path("README.md").read_text():
+              print(f"README.md: does not send a submitter to {form}")
+              failed = True
+          for document in sorted(pathlib.Path(".").rglob("*.md")):
+              if ".lake" in document.parts:
+                  continue
+              for number, line in enumerate(document.read_text().splitlines(), 1):
+                  if retired.search(line):
+                      print(f"{document}:{number}: that submission form was deleted; submissions go to {form}")
+                      failed = True
+          raise SystemExit(failed)
+          PY
+
+  provenance:
+    name: Check the proof module against the benchmark output
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Reconstruct the benchmark output from the module and its diff, and check its SHA-256
+        # provenance/SHA256SUMS records the SHA-256 of the file the harness captured, and
+        # provenance/Solution.diff the edits from it to Solution.lean. Reversing the diff must
+        # reproduce that file bit for bit, which pins both to the artifact they describe.
+        run: |
+          set -euo pipefail
+          patch -R -o "$RUNNER_TEMP/submission-02.lean" Solution.lean provenance/Solution.diff
+          cd "$RUNNER_TEMP"
+          sha256sum -c <(sed "s#  #  $RUNNER_TEMP/#" "$GITHUB_WORKSPACE/provenance/SHA256SUMS")
+
+  build:
+    name: Build and audit with Lean
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          # Builds every default target, which includes Audit: the audit's checks are elaboration
+          # errors, so a successful build is a passing audit. Kernel-checking the 8 MB proof
+          # certificate needs several gigabytes of memory and a few minutes.
+          build: true
+      - name: Report the axioms the compared theorem depends on
+        run: ./scripts/audit.sh

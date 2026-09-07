@@ -1,0 +1,198 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml v0.4 (mathlib-initiative format, Palomar registry rules).
+version: v0.4
+project:
+  name: 'Erdős problem #1207 (isosceles-free subsets of planar point sets): proof'
+  description: >-
+    Proof of Erdős problem #1207: there is a constant c > 0 such that every sufficiently large n admits a set of n
+    points in the plane whose largest isosceles-free subset has fewer than n^(1-c) points, i.e. P_2(n) < n^(1-c).
+    Found autonomously by GPT-6 Astra in the FrontierMath Erdős benchmark harness (Adamczewski and Bloom, 2026).
+  authors:
+  - name: Tom Adamczewski
+    github: tadamcz
+    orcid: https://orcid.org/0000-0001-6772-1185
+  license: Apache-2.0
+  responsible_maintainers:
+  - name: Tom Adamczewski
+    github: tadamcz
+    orcid: https://orcid.org/0000-0001-6772-1185
+classification:
+  arxiv:
+  - math.CO
+  - math.MG
+  - math.NT
+  msc2020:
+  - 52C10
+  - 11R29
+sources:
+- title: >-
+    Proof of Erdős problem #1207: there is c > 0 with P_2(n) < n^(1-c) for all sufficiently large n, where P_2(n) is
+    the least, over n-point planar sets, of the largest isosceles-free subset.
+  type: original-proof
+  relationship: other
+  note: >-
+    This formalization is the first presentation of this proof. The Lean proof was found by a pre-release version of
+    GPT-6 Astra, working autonomously in the FrontierMath Erdős benchmark harness; no human wrote or steered the
+    proof. The informal statement had already been established in the literature in July 2026 by Lee, Pohoata and Zhu
+    (arXiv:2607.05374), by a different route (the Minkowski grid); the relation between the two arguments has not been
+    worked out. The model cannot have drawn on that paper, which postdates GPT-6 Astra's 30 April 2026 knowledge
+    cutoff and so was not in its training data; the run also had the literature affordance switched off and no network
+    access.
+- title: 'Erdős problem #1207 (erdosproblems.com)'
+  type: web discussion
+  contributors:
+  - name: Paul Erdős
+    role: problem proposer
+  - name: Thomas F. Bloom
+    role: curator of erdosproblems.com
+  id: https://www.erdosproblems.com/1207
+  location: https://www.erdosproblems.com/1207
+  relationship: background
+  note: >-
+    Problem page with statement, history, references and a forum thread; the page still listed the problem as open in
+    September 2026. Erdős attributes the problem to Riddell.
+- title: A survey of problems in combinatorial number theory
+  authors:
+  - Paul Erdős
+  type: paper
+  location: Annals of Discrete Mathematics 6 (1980), 89-115
+  relationship: background
+  note: >-
+    Source of the problem (Er80, p. 110, on erdosproblems.com), where Erdős poses the question of whether
+    P_2(n) < n^(1-c).
+- title: Isosceles triangles determined by a planar point set
+  authors:
+  - János Pach
+  - Gábor Tardos
+  type: paper
+  location: Graphs and Combinatorics 18 (2002), 769-779
+  relationship: background
+  note: >-
+    Bound on the number of isosceles triangles in a planar point set; with random deletion it gives the lower bound
+    P_2(n) >> n^0.432 recorded on erdosproblems.com.
+- title: The Minkowski grid has robustly many repeated distances
+  authors:
+  - Sungchul Lee
+  - Cosmin Pohoata
+  - Daniel G. Zhu
+  type: paper
+  id: https://arxiv.org/abs/2607.05374
+  location: arXiv:2607.05374 (6 July 2026)
+  relationship: background
+  note: >-
+    Establishes the informal statement (its abstract says that the existence of a set all of whose subsets of size
+    at least about n^(1-delta) contain isosceles triangles confirms a conjecture of Erdős from 1980) by a construction
+    in the Minkowski embedding of algebraic integers of higher-degree number fields. The proof in this repository also
+    uses number fields, via an unramified 2-tower of totally real fields, but its relation to this paper's argument
+    has not been examined.
+- title: FrontierMath Erdős
+  authors:
+  - Tom Adamczewski
+  - Thomas F. Bloom
+  type: paper
+  location: https://github.com/epoch-research/LeanOpenProblems
+  relationship: background
+  note: >-
+    Manuscript by Tom Adamczewski (Epoch AI) and Thomas F. Bloom (University of Manchester), 2026, describing the
+    benchmark of 68 open Erdős problems, the agent harness, the verification protocol and the results. The harness and
+    Lean statements are at the given repository.
+related_formalizations:
+- id: https://github.com/epoch-research/LeanOpenProblems/blob/8fa3b4c6ee5e6f0ee25d027b6f110f20787db977/apn/data/erdos_autoformalized/Isolated/Erdos1207.erdos_1207.lean
+  relationship: builds-on
+  note: >-
+    The statement file given to the AI system. The problem had no statement in Formal Conjectures; this statement was
+    produced by the benchmark authors' autoformalization pipeline. The compared theorem is this statement, proved. Its
+    auxiliary notions Set.Triplewise and IsIsosceles come from Formal Conjectures (FormalConjecturesForMathlib at
+    commit 9cbe1d3c12998c786b7c2cd99ce28a21b6631f66) and are copied verbatim into Challenge.lean and the proof module.
+status:
+  scope: >-
+    Fully formalized: the compared theorem Erdos1207.erdos_1207 in Challenge.lean is proved in Solution.lean via the
+    Solution.lean itself with no sorry and no axioms beyond propext, Quot.sound and Classical.choice. The proof module is an ordinary readable Lean development of 19,687 lines, 664 theorems and
+    about 1,975 declarations. Only the conjectured statement is advertised; the explicit value of c inside the proof,
+    and an unconditional (log n)^2 bound also proved there, are not part of the compared statement. Nothing about the
+    informal problem was omitted or weakened relative to the benchmark's formal statement; see fidelity.divergences.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+automation:
+  methods:
+  - method: autonomous
+    models:
+    - GPT-6 Astra (pre-release version, OpenAI)
+    framework: >-
+      Inspect AI (UK AISI) with the LeanOpenProblems task harness; basic ReAct agent (the harness's larger-budget
+      configuration, without subagents, memory or a literature snapshot)
+    tool_setup: >-
+      The model worked alone in a Docker container without network access, with bash, a text editor, a resource-budget
+      tool, a Lean 4 toolchain (v4.27.0) with Mathlib (a3a10db0, the v4.27.0 release, reached via Formal Conjectures at
+      commit 9cbe1d3c1299), SageMath and Python (sympy, mpmath, numpy, pantograph). Its submissions were checked in a
+      separate pristine container by the harness's verifier (SafeVerify at the time of this run) against the trusted
+      statement, permitting only the three standard axioms. This repository pins the same toolchain; see
+      automation.notes and the README for why it is not moved to a later Mathlib.
+    cost:
+      wall_time: >-
+        36.6 hours of agent working time for the whole attempt (harness working_time, excluding API retry waits; 37.4
+        hours of wall-clock time, 3-5 September 2026). The submission packaged here was made at 27 h 42 m.
+      spend_usd: >-
+        549 USD for the whole attempt, computed from its token counts at GPT-6 Astra's standard rates (USD 10 per
+        million input tokens, 50 per million output tokens, 1 per million cache-read tokens and 12.50 per million
+        cache-write tokens); the harness metered 288 USD at stand-in GPT-5.6 Sol prices, of which 221 USD had been
+        spent when the submission packaged here was made.
+      hardware: API-only inference; the agent's sandbox ran on Epoch AI's cloud evaluation infrastructure
+    prompting_notes: >-
+      Fixed task prompt from the harness (apn/prompts.py in LeanOpenProblems): settle the conjecture in Spec.lean by
+      filling the sorry of either the statement or its .disproof negation without altering either statement or the
+      imports, using only the permitted axioms; a description of the available tools; and general encouragement that
+      open conjectures are not infeasible. No problem-specific hints or human interaction.
+  spend_usd: >-
+    549 USD for the single resolution attempt included in this repository, at GPT-6 Astra's standard rates; two
+    further attempts on the same statement in the same eval set did not resolve it (one hit the 96-hour working-time
+    limit at about 800 USD, one was lost to an infrastructure error at about 367 USD)
+  notes: >-
+    The Lean development was written entirely by the AI system inside the benchmark harness. Humans (Tom Adamczewski)
+    ran the harness and, after the run, packaged the output into this repository. The only edits to the AI-written
+    file are mechanical and there are only two, both listed in the README: import FormalConjecturesUtil became import
+    Mathlib, and the six declarations that import provided which are not in Mathlib were copied in verbatim from
+    Formal Conjectures (two used by the statement, four by the proof). No mathematics was touched. Reversing the diff
+    in provenance/ reproduces the harness's own file bit for bit, and CI checks that against the recorded SHA-256.
+fidelity:
+  divergences: >-
+    Relative to the erdosproblems.com statement there is no known divergence. P d n is the infimum over n-element
+    finsets of EuclideanSpace ℝ (Fin d) of the supremum of cardinalities of isosceles-free subsets of that finset,
+    which is exactly P_d(n): for every n such a finset exists, and the inner set of cardinalities is nonempty and
+    bounded by n, so neither sInf nor sSup takes its junk value 0. A set is isosceles-free when no three distinct
+    points have two equal distances among them (IsIsosceles p q r is dist p q = dist q r or dist q r = dist r p or
+    dist r p = dist p q, so degenerate collinear isosceles triples count, matching the problem's remark that the case
+    d = 1 is the three-term-progression problem). The conclusion reads "for some constant c > 0 and all sufficiently
+    large n" with the real power n^(1-c); the informal question does not specify the range of n, and any c at most 1
+    forces P_2(n) at least 2 for n at least 2, so the eventual quantifier is the natural reading. The value of c is
+    existential and not advertised.
+review:
+  status: >-
+    Kernel-checked by Lean 4 v4.27.0 when this repository builds, with an in-repo audit (Audit.lean and
+    scripts/audit.sh) confirming that Challenge.lean and Solution.lean give the theorem the same fully explicit type
+    and that it depends only on propext, Quot.sound and Classical.choice. The external Comparator and its independent
+    NanoDa replay could not be run, because no Comparator or lean4export release supports this repository's pinned
+    Lean v4.27.0. No human has refereed the argument; no informal review and no independent refereeing.
+  reviewers: []
+  notes: >-
+    Statement audit: the formal statement was produced by the benchmark authors' autoformalization pipeline and given
+    to the model unchanged; the packager's own reading of it is recorded under fidelity.divergences. Mathematical
+    review: none. The proof is readable and can be audited by a mathematician, but no one has done so.
+alignment:
+  namespace: Erdos1207
+  statements:
+  - source: erdosproblems.com/1207, as formalized for the FrontierMath Erdős benchmark
+    lean: Erdos1207.erdos_1207
+    module: Challenge
+    status: proved
+    note: >-
+      The compared theorem is the formal conjecture itself. Its exact text is identical to the benchmark statement;
+      Audit.lean re-types the statement verbatim and checks that the proved theorem inhabits it, and scripts/audit.sh
+      checks that the fully explicit types of the constant in the Challenge and Solution environments are identical.
+acknowledgements: >-
+  Lean 4 and Mathlib; the Lean FRO's Comparator, whose challenge/solution layout this repository follows even though
+  it could not be run at this toolchain; Google DeepMind's Formal Conjectures project for the auxiliary definitions;
+  Thomas F. Bloom (erdosproblems.com) for curating the problem; Epoch AI for the compute and evaluation
+  infrastructure; OpenAI for pre-release access to GPT-6 Astra; the Palomar registry template for the repository
+  layout.
