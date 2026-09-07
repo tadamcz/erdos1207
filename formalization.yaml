@@ -82,9 +82,14 @@ sources:
   note: >-
     Establishes the informal statement (its abstract says that the existence of a set all of whose subsets of size
     at least about n^(1-delta) contain isosceles triangles confirms a conjecture of Erdős from 1980) by a construction
-    in the Minkowski embedding of algebraic integers of higher-degree number fields. The proof in this repository also
-    uses number fields, via an unramified 2-tower of totally real fields, but its relation to this paper's argument
-    has not been examined.
+    in the Minkowski embedding of algebraic integers of higher-degree number fields. The proof in this repository
+    shares the frame (a Minkowski grid over a high-degree totally real tower of bounded root discriminant, and the
+    observation that an isosceles-free set repeats no distance from any point) but not the engine: it obtains
+    repeated distances from norm-one units acting as isometries at a complex place rather than from a sieve over
+    completely split primes, and it constructs its unramified tower from scratch via a Golod-Shafarevich-style
+    argument using class groups, where the paper cites Hajir-Maire-Ramakrishna and avoids the class group. The paper
+    is downstream of an OpenAI model's 2026 disproof of the unit-distance conjecture, which introduced the
+    high-degree Minkowski grid; see the README section "Relation to the literature".
 - title: FrontierMath Erdős
   authors:
   - Tom Adamczewski
