@@ -6,8 +6,7 @@
 
 A machine-checked proof of [Erdős problem #1207](https://www.erdosproblems.com/1207) in Lean 4 with Mathlib. The
 proof was found autonomously by a pre-release version of GPT-6 Astra (OpenAI) running in the harness of the
-FrontierMath Erdős benchmark (Adamczewski and Bloom, 2026). The repository follows the layout of the
-[Palomar registry](https://palomar-registry.org/) template. `Challenge.lean` is the short statement a reader audits,
+FrontierMath Erdős benchmark (Adamczewski and Bloom, 2026). In this repository, `Challenge.lean` is the short statement a reader audits,
 `Solution.lean` proves it, and `Audit.lean` with `scripts/audit.sh` checks that the two statements coincide and that
 the proof uses only the standard axioms.
 
@@ -181,8 +180,7 @@ place.
 ## Toolchain
 
 This repository pins Lean v4.27.0 and Mathlib `a3a10db0`, the v4.27.0 release, which is what the proof was written
-against. The sibling repositories in this series move to the oldest Mathlib the Palomar registry accepts. This one
-does not.
+against.
 
 ### Why Mathlib v4.28.0 was not adopted
 
@@ -229,10 +227,7 @@ ruby scripts/validate-formalization.rb
 ./scripts/audit.sh  # compares the two environments' statements and prints the axioms
 ```
 
-CI runs the same checks. The repository is prepared for submission to Palomar through the
-[submission form](https://submit.palomar-registry.org/) with the full commit SHA. Registration is a separate step by
-the maintainer, and a submitter should be aware that the toolchain pin and the missing Comparator run may not meet
-the registry's requirements.
+CI runs the same checks.
 
 ## Licence and attribution
 

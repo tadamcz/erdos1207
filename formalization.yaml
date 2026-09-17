@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
-# formalization.yaml v0.4 (mathlib-initiative format, Palomar registry rules).
+# formalization.yaml v0.4 (mathlib-initiative format).
 version: v0.4
 project:
   name: 'Erdős problem #1207 (isosceles-free subsets of planar point sets): proof'
@@ -199,5 +199,4 @@ acknowledgements: >-
   Lean 4 and Mathlib; the Lean FRO's Comparator, whose challenge/solution layout this repository follows even though
   it could not be run at this toolchain; Google DeepMind's Formal Conjectures project for the auxiliary definitions;
   Thomas F. Bloom (erdosproblems.com) for curating the problem; Epoch AI for the compute and evaluation
-  infrastructure; OpenAI for pre-release access to GPT-6 Astra; the Palomar registry template for the repository
-  layout.
+  infrastructure; OpenAI for pre-release access to GPT-6 Astra.

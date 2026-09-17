@@ -229,6 +229,6 @@ class ValidateFormalizationTest < Minitest::Test
 end
 
 # The canonical template routes its metadata check on `github.repository`, running
-# `--expect-template` only in PalomarRegistry/PalomarTemplate. This repository is derived from the
+# `--expect-template` only in the upstream template repository. This repository is derived from the
 # template and always runs the plain check, so there is no routing to pin here; the workflow test
 # the template ships was removed with that conditional.

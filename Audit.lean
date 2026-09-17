@@ -3,7 +3,7 @@ import Solution
 /-!
 # Audit (solution side)
 
-Part of the checking that the Palomar template delegates to
+Part of the checking normally delegated to
 [Comparator](https://github.com/leanprover/comparator), which cannot be built against this
 repository's toolchain; see the README section "Toolchain and verification". `scripts/audit.sh`
 builds this module and then performs the cross-environment comparison that this module cannot.
